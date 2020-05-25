@@ -5,6 +5,8 @@ import com.movies.model.Movie;
 import com.movies.model.MoviePreview;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,8 +48,17 @@ public class MovieDatabaseAccessorImplementation implements MovieDatabaseAccesso
     }
 
     @Override
-    public List<MoviePreview> filterByTagAndListMovies(String tagFilter) {
-        final String query = "SELECT (name, description, score, youtube_url) FROM Movie WHERE ";
-        return null;
+    public List<MoviePreview> filterByTagAndListMovies(String[] tagFilters) {
+        final String query = "SELECT tag FROM MovieXCategory WHERE category IN :tagFilters)";
+        final NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+        final MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("tagFilters", tagFilters);
+        final List<MoviePreview> moviePreviews = namedParameterJdbcTemplate.query(query, parameters, ((rs, rc) -> {
+            final String name = rs.getString("name");
+            final String description = rs.getString("description");
+            final int score = rs.getInt("score");
+            return new MoviePreview(name, description, score);
+        }));
+        return moviePreviews;
     }
 }

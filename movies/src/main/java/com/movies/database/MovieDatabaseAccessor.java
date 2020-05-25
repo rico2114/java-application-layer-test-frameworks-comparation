@@ -9,5 +9,5 @@ public interface MovieDatabaseAccessor {
 
     List<MoviePreview> listAll();
     Movie findMovie(final int movieId);
-    List<MoviePreview> filterByTagAndListMovies(final String tagFilter);
+    List<MoviePreview> filterByTagAndListMovies(final String[] tagFilters);
 }

@@ -27,7 +27,7 @@ public class MovieServiceImplementation implements MovieService {
     }
 
     @Override
-    public List<MoviePreview> filterByTagAndListMovies(String tagFilter) {
-        return movieDatabaseAccessor.filterByTagAndListMovies(tagFilter);
+    public List<MoviePreview> filterByTagAndListMovies(String[] tagFilters) {
+        return movieDatabaseAccessor.filterByTagAndListMovies(tagFilters);
     }
 }

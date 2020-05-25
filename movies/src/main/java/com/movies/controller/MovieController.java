@@ -31,8 +31,8 @@ public class MovieController {
         return movieService.findMovie(movieId);
     }
 
-    @RequestMapping(value = "/movie/filter_and_find/{movieId}/{tagFilter}")
-    List<MoviePreview> filterByTagAndListMovies(final String tagFilter) {
-        return movieService.filterByTagAndListMovies(tagFilter);
+    @RequestMapping(value = "/movie/filter_and_find/{tagFilters}")
+    List<MoviePreview> filterByTagAndListMovies(@PathVariable("tagFilters") final String[] tagFilters) {
+        return movieService.filterByTagAndListMovies(tagFilters);
     }
 }
