@@ -4,9 +4,11 @@ import com.movies.database.MovieDatabaseAccessor;
 import com.movies.model.Movie;
 import com.movies.model.MoviePreview;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MovieServiceImplementation implements MovieService {
 
     private final MovieDatabaseAccessor movieDatabaseAccessor;

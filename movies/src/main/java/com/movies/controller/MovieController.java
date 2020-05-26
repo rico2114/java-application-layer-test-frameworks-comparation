@@ -2,6 +2,8 @@ package com.movies.controller;
 
 import com.movies.model.Movie;
 import com.movies.model.MoviePreview;
+import com.movies.model.UserAction;
+import com.movies.rest.UserActionRecordClient;
 import com.movies.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,10 +17,12 @@ import java.util.List;
 public class MovieController {
 
     private final MovieService movieService;
+    private final UserActionRecordClient userActionRecordClient;
 
     @Autowired
-    public MovieController(final MovieService movieService) {
+    public MovieController(final MovieService movieService, final UserActionRecordClient userActionRecordClient) {
         this.movieService = movieService;
+        this.userActionRecordClient = userActionRecordClient;
     }
 
     @RequestMapping(value = "/movie/list_all", method = RequestMethod.GET)
@@ -34,5 +38,10 @@ public class MovieController {
     @RequestMapping(value = "/movie/filter_and_find/{tagFilters}")
     List<MoviePreview> filterByTagAndListMovies(@PathVariable("tagFilters") final String[] tagFilters) {
         return movieService.filterByTagAndListMovies(tagFilters);
+    }
+
+    @RequestMapping(value = "/user/record/{user_id}", method = RequestMethod.GET)
+    UserAction[] retrieveAllUserActions(@PathVariable("user_id") final int userId) {
+        return userActionRecordClient.retrieveAllUserActions(userId);
     }
 }

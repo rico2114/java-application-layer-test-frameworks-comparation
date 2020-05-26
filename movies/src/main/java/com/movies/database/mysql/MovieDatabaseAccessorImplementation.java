@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -23,7 +24,7 @@ public class MovieDatabaseAccessorImplementation implements MovieDatabaseAccesso
 
     @Override
     public List<MoviePreview> listAll() {
-        final String query = "SELECT (name, description, score) FROM Movie";
+        final String query = "SELECT name, description, score FROM Movie";
         List<MoviePreview> movies = jdbcTemplate.query(query, (rs, rn) -> {
             final String name = rs.getString("name");
             final String description = rs.getString("description");
@@ -36,23 +37,29 @@ public class MovieDatabaseAccessorImplementation implements MovieDatabaseAccesso
 
     @Override
     public Movie findMovie(int movieId) {
-        final String query = "SELECT (name, description, score, youtubeUrl) FROM Movie WHERE Movie.id = movieId";
+        final String query = "SELECT name, description, score, youtubeUrl FROM Movie WHERE Movie.id = ?";
         final Movie movie = jdbcTemplate.query(query, new Object [] {movieId}, (rs -> {
-            final String name = rs.getString("name");
-            final String description = rs.getString("description");
-            final int score = rs.getInt("score");
-            final String youtubeUrl = rs.getString("youtube_url");
-            return new Movie(name, description, score, youtubeUrl);
+            if (rs.next()) {
+                final String name = rs.getString("name");
+                final String description = rs.getString("description");
+                final int score = rs.getInt("score");
+                final String youtubeUrl = rs.getString("youtubeUrl");
+                return new Movie(name, description, score, youtubeUrl);
+            }
+            return null;
         }));
         return movie;
     }
 
     @Override
     public List<MoviePreview> filterByTagAndListMovies(String[] tagFilters) {
-        final String query = "SELECT tag FROM MovieXCategory WHERE category IN :tagFilters)";
+        final String query = "SELECT name, description, score FROM Movie INNER JOIN MovieXTag ON (Movie.id = MovieXTag.movie_id) WHERE MovieXTag.tag IN (:tagFilters)";
+
         final NamedParameterJdbcTemplate namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
         final MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("tagFilters", tagFilters);
+        // Has to be casted to a list in order for the namedParameterTemplate to work.
+        parameters.addValue("tagFilters", Arrays.asList(tagFilters));
+
         final List<MoviePreview> moviePreviews = namedParameterJdbcTemplate.query(query, parameters, ((rs, rc) -> {
             final String name = rs.getString("name");
             final String description = rs.getString("description");

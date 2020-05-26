@@ -1,0 +1,32 @@
+[
+    {
+        "activity": "login",
+        "response": "ok",
+        "data": "username:juan2114,name:Juan,email:juan.2114@hotmail.com"
+    },
+    {
+        "activity": "browse movies",
+        "response": "failure",
+        "data": ""
+    },
+    {
+        "activity": "browse movies",
+        "response": "ok",
+        "data": ""
+    },
+    {
+        "activity": "select movie",
+        "response": "ok",
+        "data": "movie:Piratas del caribe,movieId:14"
+    },
+    {
+        "activity": "browse movies",
+        "response": "ok",
+        "data": ""
+    },
+    {
+        "activity": "logout",
+        "response": "ok",
+        "data": ""
+    }
+]
