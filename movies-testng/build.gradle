@@ -1,0 +1,62 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.6.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
+}
+
+group = 'com'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "Hoxton.SR3")
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+	compile group: 'org.springframework', name: 'spring-jdbc', version: '5.2.2.RELEASE'
+	// https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+	compile group: 'com.zaxxer', name: 'HikariCP', version: '3.3.1'
+
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	// https://mvnrepository.com/artifact/org.assertj/assertj-core
+	testCompile group: 'org.assertj', name: 'assertj-core', version: '3.15.0'
+	// https://mvnrepository.com/artifact/org.easymock/easymock
+	testCompile group: 'org.easymock', name: 'easymock', version: '4.2'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
+	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.6.RELEASE'
+
+	compile group: 'org.testng', name: 'testng', version: '6.14.3'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useTestNG() {
+		// runlist to executed. path is relative to current folder.
+		suites 'testng.xml'
+	}
+}
+
+task modelTest(type: Test) {
+	useTestNG() {
+		includeGroups 'model'
+	}
+}
+
+task serviceTest(type: Test) {
+	useTestNG() {
+		includeGroups 'service'
+	}
+}

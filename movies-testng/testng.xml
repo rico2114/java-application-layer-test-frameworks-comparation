@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" name="models">
+        <groups>
+            <run>
+                <include name="model" />
+            </run>
+        </groups>
+    </test>
+
+    <test verbose="2" name="services">
+        <groups>
+            <run>
+                <include name="service" />
+            </run>
+        </groups>
+    </test>
+
+    <test verbose="2" name="controllers">
+        <groups>
+            <run>
+                <include name="controller" />
+            </run>
+        </groups>
+    </test>
+</suite>
+
