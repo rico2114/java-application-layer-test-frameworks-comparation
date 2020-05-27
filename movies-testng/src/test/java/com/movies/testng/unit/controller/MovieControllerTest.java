@@ -64,14 +64,14 @@ public class MovieControllerTest extends AbstractTestNGSpringContextTests {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
-    @Test(timeOut = 1000L)
+    @Test(threadPoolSize = 3, timeOut = 1000L, invocationCount = 15)
     public void testResponseOfUserRecordRestClientIsFasterThanOneSecond() throws Exception {
         mockMvc.perform(get("/user/record/1")).andExpect(status().isOk()).andExpect(content().json(JSON_RESPONSE_REQUIRED));
     }
 
-    @Test(timeOut = 250L)
+    @Test(timeOut = 550L)
     public void testResponseOfUserRecordRestClientIsMeetingMinimumExpectation() throws Exception {
-        // Assert that this response is not retrieved within 1/4 of a second.
+        // Assert that this response is not retrieved within almost 1/2 of a second.
 
         // Note: If we wanted to use JsonAssert library we would possibly need to create a matcher.
         // TODO(Juan): Test more this json matcher integrated by spring framework for testing, we need to see if it's actually worth using.

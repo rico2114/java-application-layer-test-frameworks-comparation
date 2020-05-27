@@ -60,3 +60,9 @@ task serviceTest(type: Test) {
 		includeGroups 'service'
 	}
 }
+
+task controllerTest(type: Test) {
+	useTestNG() {
+		includeGroups 'controller'
+	}
+}
