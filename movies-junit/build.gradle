@@ -32,6 +32,10 @@ dependencies {
 	testCompile group: 'org.mockito', name: 'mockito-core', version: '3.0.0'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test
 	testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.6.RELEASE'
+	// https://mvnrepository.com/artifact/junit/junit
+	testCompile group: 'junit', name: 'junit', version: '4.12'
+// https://mvnrepository.com/artifact/org.junit.platform/junit-platform-runner
+	testCompile group: 'org.junit.platform', name: 'junit-platform-runner', version: '1.4.2'
 
 	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.1.1'
 	testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.1.1'
@@ -46,14 +50,4 @@ dependencyManagement {
 test {
 	useJUnitPlatform()
 	maxHeapSize = '1G'
-
-	afterSuite { desc, result ->
-		if (!desc.parent) {
-			println "\nTest result: ${result.resultType}"
-			println "Test summary: ${result.testCount} tests, " +
-					"${result.successfulTestCount} succeeded, " +
-					"${result.failedTestCount} failed, " +
-					"${result.skippedTestCount} skipped"
-		}
-	}
 }
