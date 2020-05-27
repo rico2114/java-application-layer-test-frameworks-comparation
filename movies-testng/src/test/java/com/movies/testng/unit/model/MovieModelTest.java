@@ -10,7 +10,7 @@ import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 @Test(groups = "model")
 public class MovieModelTest {
 
-    @Test(dataProvider = "generateParametrizationForTestModelIsConstructedCorrectly")
+    @Test(threadPoolSize = 3, dataProvider = "generateParametrizationForTestModelIsConstructedCorrectly", invocationCount = 5)
     public void testModelIsConstructedCorrectly(final String name, final String description, final int score, final String youtubeUrl) {
         final Movie movie = new Movie(name, description, score, youtubeUrl);
 
